@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: kostcalc_db
+    restart: always
+    environment:
+      POSTGRES_USER: kostcalc_user
+      POSTGRES_PASSWORD: kostcalc_pass
+      POSTGRES_DB: kostcalc
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - kostcalc_net
+
+volumes:
+  pgdata:
+
+networks:
+  kostcalc_net:
+    driver: bridge
