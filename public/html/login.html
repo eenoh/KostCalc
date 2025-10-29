@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KostCalc – Login</title>
+  <link rel="stylesheet" href="../css/theme.css" />
+</head>
+<body>
+  <div class="kc-wrap">
+    <header class="kc-header">
+      <div class="kc-logo" aria-hidden="true"></div>
+      <div>
+        <div class="kc-title">KostCalc</div>
+        <div class="kc-sub">Cost accounting—made simple</div>
+      </div>
+    </header>
+
+    <main class="kc-main">
+      <section class="kc-card" role="region" aria-labelledby="login-title">
+        <h1 id="login-title">Welcome back</h1>
+        <p class="kc-muted">Log in to access your dashboard.</p>
+
+        <!-- Example error area (hide/show via server or JS) -->
+        <!-- <div class="kc-alert error">Invalid email or password.</div> -->
+
+        <form class="kc-form" method="POST" action="/auth/login">
+          <div class="kc-field">
+            <label class="kc-label" for="email">Email</label>
+            <input class="kc-input" id="email" name="email" type="email" placeholder="you@company.com" required autocomplete="email" />
+          </div>
+
+          <div class="kc-field">
+            <div class="kc-row">
+              <label class="kc-label" for="password">Password</label>
+              <a class="kc-link kc-right" href="/forgot-password">Forgot password?</a>
+            </div>
+            <input class="kc-input" id="password" name="password" type="password" placeholder="••••••••" required autocomplete="current-password" minlength="8" />
+            <div class="kc-help">Minimum 8 characters.</div>
+          </div>
+
+          <div class="kc-actions">
+            <label class="kc-row">
+              <input class="kc-checkbox" type="checkbox" name="remember" />
+              <span>Remember me</span>
+            </label>
+            <button class="kc-btn" type="submit">Sign in</button>
+          </div>
+        </form>
+
+        <p class="kc-muted" style="margin-top:16px">
+          New to KostCalc? <a class="kc-link" href="./register">Create an account</a>
+        </p>
+      </section>
+    </main>
+
+    <footer class="kc-footer">
+      © <span id="year"></span> KostCalc. All rights reserved.
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

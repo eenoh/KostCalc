@@ -1,0 +1,28 @@
+{
+  "name": "kostcalc",
+  "version": "1.0.0",
+  "description": "A software application that digitalizes cost accounting.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch --env-file=.env ./src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eenoh/KostCalc.git"
+  },
+  "keywords": [],
+  "author": "Emmanuel Enoh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eenoh/KostCalc/issues"
+  },
+  "homepage": "https://github.com/eenoh/KostCalc#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
