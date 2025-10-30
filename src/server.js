@@ -1,27 +1,34 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import authRoutes from './routes/authRoutes.js';
-
+import onboardingRoutes from './routes/onboardingRoutes.js';
+import { requireAuth, requireOnboardingComplete } from './middleware/authMiddleware.js';
 
 const app = express();
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
+app.use(cookieParser());
 
 app.use(express.static("public"));
 
-
 app.get("/login", (_, res) => {
-  res.sendFile(process.cwd() + "/public/html/login.html")
+  res.sendFile(process.cwd() + "/public/html/login.html");
 });
 app.get("/register", (_, res) => {
-  res.sendFile(process.cwd() + "/public/html/register.html")
+  res.sendFile(process.cwd() + "/public/html/register.html");
 });
 
+// Onboarding (JWT required)
+app.use('/onboarding', requireAuth, onboardingRoutes);
 
+// Home (JWT required + must have onboarded)
+app.get('/home', requireAuth, requireOnboardingComplete, (_, res) => {
+  res.sendFile(process.cwd() + "/public/html/home.html");
+});
 
-// Routes
+// Auth endpoints
 app.use('/auth', authRoutes);
 
 app.listen(PORT, () => {

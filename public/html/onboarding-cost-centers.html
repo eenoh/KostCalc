@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Onboarding – Cost Centers</title>
+  <link rel="stylesheet" href="../css/theme.css" />
+  <style>
+    /* extra spacing between row groups added after the first */
+    .cc-row { margin-top: 24px; }
+  </style>
+</head>
+<body>
+  <div class="kc-wrap">
+    <header class="kc-header">
+      <div class="kc-logo"></div>
+      <div><div class="kc-title">KostCalc</div><div class="kc-sub">Onboarding – Step 2 of 3</div></div>
+    </header>
+
+    <main class="kc-main">
+      <section class="kc-card">
+        <h1>Cost centers</h1>
+        <p class="kc-muted">Create a few cost centers to start (you can add more later).</p>
+
+        <form class="kc-form" id="centersForm" method="POST" action="/onboarding/cost-centers">
+          <div id="rows"></div>
+
+          <div class="kc-actions">
+            <button class="kc-btn" type="button" id="add">Add row</button>
+            <button class="kc-btn" type="submit">Continue</button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <footer class="kc-footer">© <span id="year"></span> KostCalc</footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const rows = document.getElementById('rows');
+
+    // add one row; "isRequired" applies required to code & name only for the first row
+    function addRow(isRequired = false) {
+      const wrap = document.createElement('div');
+      // add extra top margin if NOT the first row
+      if (rows.children.length > 0) wrap.classList.add('cc-row');
+
+      wrap.classList.add('kc-field');
+      wrap.innerHTML = `
+        <div style="display:grid;grid-template-columns:160px 1fr;gap:12px">
+          <input class="kc-input" name="code[]" placeholder="CC-001" ${isRequired ? 'required' : ''} />
+          <input class="kc-input" name="name[]" placeholder="Production" ${isRequired ? 'required' : ''} />
+        </div>
+        <input class="kc-input" name="desc[]" placeholder="Optional description" />
+      `;
+      rows.appendChild(wrap);
+    }
+
+    // first row only (required)
+    addRow(true);
+
+    // click to add optional rows (not required)
+    document.getElementById('add').addEventListener('click', () => addRow(false));
+
+    // Submit as JSON; keep native required validation for the first row
+    document.getElementById('centersForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+
+      // trigger HTML5 validation (ensures first row is filled)
+      if (!form.reportValidity()) return;
+
+      const codes = [...form.querySelectorAll('input[name="code[]"]')].map(i => i.value.trim());
+      const names = [...form.querySelectorAll('input[name="name[]"]')].map(i => i.value.trim());
+      const descs = [...form.querySelectorAll('input[name="desc[]"]')].map(i => i.value.trim());
+
+      // build centers, skipping optional rows that are completely empty
+      const centers = codes
+        .map((c, i) => ({ code: c, name: names[i] || '', desc: descs[i] || '' }))
+        .filter((row, idx) => {
+          // keep the first row always (it’s required), later rows only if at least code or name present
+          return idx === 0 ? true : (row.code !== '' || row.name !== '');
+        });
+
+      const res = await fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ centers })
+      });
+
+      if (res.redirected) {
+        window.location = res.url; // should go to /onboarding/done
+      } else if (res.ok) {
+        window.location = '/onboarding/done';
+      } else {
+        alert(await res.text());
+      }
+    });
+  </script>
+</body>
+</html>

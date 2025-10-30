@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KostCalc – Setup Complete</title>
+  <link rel="stylesheet" href="../css/theme.css" />
+  <style>
+    .count { font-weight: 700; }
+    .bar { height: 6px; border-radius: 6px; background: #e2e8f0; overflow: hidden; }
+    .bar > div { height: 100%; width: 0; background: var(--kc-primary); transition: width .2s linear; }
+  </style>
+</head>
+<body>
+  <div class="kc-wrap">
+    <header class="kc-header">
+      <div class="kc-logo"></div>
+      <div><div class="kc-title">KostCalc</div><div class="kc-sub">Onboarding – Step 3 of 3</div></div>
+    </header>
+
+    <main class="kc-main">
+      <section class="kc-card">
+        <h1>Setup complete 🎉</h1>
+        <p class="kc-muted">We’re taking you to your dashboard in <span class="count" id="sec">3</span> seconds.</p>
+
+        <div class="bar" aria-hidden="true"><div id="prog"></div></div>
+
+        <div class="kc-actions" style="margin-top:16px">
+          <span></span>
+          <a class="kc-btn" href="/home" id="goNow">Go now</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="kc-footer">© <span id="year"></span> KostCalc</footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const total = 3; // seconds
+    let left = total;
+    const sec = document.getElementById('sec');
+    const prog = document.getElementById('prog');
+    const tick = 100; // ms
+
+    const iv = setInterval(() => {
+      left = Math.max(0, left - tick/1000);
+      sec.textContent = Math.ceil(left);
+      prog.style.width = `${((total-left)/total)*100}%`;
+      if (left <= 0) {
+        clearInterval(iv);
+        window.location.href = '/home';
+      }
+    }, tick);
+
+    // If user clicks "Go now", stop timer and go immediately
+    document.getElementById('goNow').addEventListener('click', () => clearInterval(iv));
+  </script>
+</body>
+</html>

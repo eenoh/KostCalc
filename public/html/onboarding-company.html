@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Onboarding – Company</title>
+  <link rel="stylesheet" href="../css/theme.css" />
+</head>
+<body>
+  <div class="kc-wrap">
+    <header class="kc-header">
+      <div class="kc-logo"></div>
+      <div><div class="kc-title">KostCalc</div><div class="kc-sub">Onboarding – Step 1 of 3</div></div>
+    </header>
+
+    <main class="kc-main">
+      <section class="kc-card">
+        <h1>Your company</h1>
+        <p class="kc-muted">Tell us how to refer to your organization.</p>
+
+        <form class="kc-form" method="POST" action="/onboarding/company">
+          <div class="kc-field">
+            <label class="kc-label" for="companyName">Company name</label>
+            <input id="companyName" name="companyName" class="kc-input" placeholder="Acme GmbH" required />
+          </div>
+          <div class="kc-actions">
+            <span></span>
+            <button class="kc-btn" type="submit">Continue</button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <footer class="kc-footer">© <span id="year"></span> KostCalc</footer>
+  </div>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

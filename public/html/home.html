@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KostCalc – Home</title>
+  <link rel="stylesheet" href="../css/theme.css" />
+</head>
+<body>
+  <div class="kc-wrap">
+    <header class="kc-header">
+      <div class="kc-logo"></div>
+      <div><div class="kc-title">KostCalc</div><div class="kc-sub">Welcome</div></div>
+    </header>
+
+    <main class="kc-main">
+      <section class="kc-card">
+        <h1>Dashboard</h1>
+        <p class="kc-muted">You’re set up. Use the menu to manage cost centers and accounts.</p>
+        <div class="kc-actions">
+          <a class="kc-btn" href="/onboarding/cost-centers">Add more cost centers</a>
+          <a class="kc-btn" href="/login">Log out</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="kc-footer">© <span id="year"></span> KostCalc</footer>
+  </div>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
