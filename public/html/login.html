@@ -9,7 +9,9 @@
 <body>
   <div class="kc-wrap">
     <header class="kc-header">
-      <div class="kc-logo" aria-hidden="true"></div>
+      <a href="/home" class="kc-logo-link">
+        <img src="../images/dark-mode-logo.png" alt="KostCalc logo" class="kc-logo-img" />
+      </a>
       <div>
         <div class="kc-title">KostCalc</div>
         <div class="kc-sub">Cost accounting—made simple</div>
@@ -21,10 +23,7 @@
         <h1 id="login-title">Welcome back</h1>
         <p class="kc-muted">Log in to access your dashboard.</p>
 
-        <!-- Example error area (hide/show via server or JS) -->
-        <!-- <div class="kc-alert error">Invalid email or password.</div> -->
-
-        <form class="kc-form" method="POST" action="/auth/login">
+        <form class="kc-form" method="POST" action="/auth/login" id="loginForm">
           <div class="kc-field">
             <label class="kc-label" for="email">Email</label>
             <input class="kc-input" id="email" name="email" type="email" placeholder="you@company.com" required autocomplete="email" />
@@ -33,7 +32,7 @@
           <div class="kc-field">
             <div class="kc-row">
               <label class="kc-label" for="password">Password</label>
-              <a class="kc-link kc-right" href="/forgot-password">Forgot password?</a>
+              <a class="kc-link kc-right" href="#" id="forgotLink">Forgot password?</a>
             </div>
             <input class="kc-input" id="password" name="password" type="password" placeholder="••••••••" required autocomplete="current-password" minlength="8" />
             <div class="kc-help">Minimum 8 characters.</div>
@@ -59,8 +58,148 @@
     </footer>
   </div>
 
+  <!-- OTP / Reset modal -->
+  <div class="kc-modal-backdrop" id="resetModal">
+    <div class="kc-modal">
+      <h2>Reset your password</h2>
+      <p class="kc-muted" id="modalNote">We’ve sent a 6-digit code to your email. Enter it below.</p>
+
+      <div class="row">
+        <label class="kc-label" for="mEmail">Email</label>
+        <input class="kc-input" id="mEmail" type="email" readonly />
+      </div>
+
+      <div class="row" id="stepCode">
+        <label class="kc-label" for="mCode">One-time code</label>
+        <input class="kc-input" id="mCode" type="text" inputmode="numeric" pattern="\\d{6}" maxlength="6" placeholder="123456" />
+        <div class="kc-help" id="status"></div>
+        <div class="actions">
+          <button class="kc-btn" id="btnVerify">Verify code</button>
+          <button class="kc-btn" id="btnClose1" type="button">Cancel</button>
+        </div>
+      </div>
+
+      <div class="row hidden" id="stepPwd">
+        <label class="kc-label" for="mPwd">New password</label>
+        <input class="kc-input" id="mPwd" type="password" minlength="8" placeholder="••••••••" />
+        <div class="kc-help">Minimum 8 characters.</div>
+        <div class="actions">
+          <button class="kc-btn" id="btnSetPwd">Set password</button>
+          <button class="kc-btn" id="btnClose2" type="button">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    const forgotLink = document.getElementById('forgotLink');
+    const modal = document.getElementById('resetModal');
+    const mEmail = document.getElementById('mEmail');
+    const mCode = document.getElementById('mCode');
+    const mPwd = document.getElementById('mPwd');
+    const statusEl = document.getElementById('status');
+    const stepCode = document.getElementById('stepCode');
+    const stepPwd = document.getElementById('stepPwd');
+    const modalNote = document.getElementById('modalNote');
+
+    function openModal(email) {
+      mEmail.value = email;
+      mCode.value = '';
+      mPwd.value = '';
+      statusEl.textContent = '';
+      statusEl.className = 'kc-help';
+      stepCode.classList.remove('hidden');
+      stepPwd.classList.add('hidden');
+      modalNote.textContent = 'We’ve sent a 6-digit code to your email. Enter it below.';
+      modal.style.display = 'flex';
+      mCode.focus();
+    }
+    function closeModal() { modal.style.display = 'none'; }
+
+    document.getElementById('btnClose1').onclick = closeModal;
+    document.getElementById('btnClose2').onclick = closeModal;
+
+    // Start flow: request OTP and open modal
+    forgotLink.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      if (!email) return alert('Please enter your email first.');
+      try {
+        await fetch('/auth/forgot-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ email })
+        });
+        openModal(email);
+      } catch {
+        openModal(email); // even if request failed, let user try code entry
+      }
+    });
+
+    // Verify code
+    document.getElementById('btnVerify').addEventListener('click', async (e) => {
+      e.preventDefault();
+      const email = mEmail.value;
+      const code = mCode.value.trim();
+      if (!/^\d{6}$/.test(code)) {
+        statusEl.textContent = 'Enter the 6-digit code.';
+        statusEl.className = 'kc-help warn';
+        return;
+      }
+      try {
+        const r = await fetch('/auth/verify-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ email, code })
+        });
+        if (r.ok) {
+          modalNote.textContent = 'Code verified. Set your new password.';
+          statusEl.textContent = 'Code accepted.';
+          statusEl.className = 'kc-help ok';
+          stepCode.classList.add('hidden');
+          stepPwd.classList.remove('hidden');
+          mPwd.focus();
+        } else {
+          statusEl.textContent = (await r.text()) || 'Invalid or expired code.';
+          statusEl.className = 'kc-help warn';
+        }
+      } catch {
+        statusEl.textContent = 'Network error. Try again.';
+        statusEl.className = 'kc-help warn';
+      }
+    });
+
+    // Set new password
+    document.getElementById('btnSetPwd').addEventListener('click', async (e) => {
+      e.preventDefault();
+      const pwd = mPwd.value.trim();
+      if (pwd.length < 8) {
+        statusEl.textContent = 'Password too short.';
+        statusEl.className = 'kc-help warn';
+        return;
+      }
+      try {
+        const r = await fetch('/auth/reset-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ password: pwd })
+        });
+        if (r.ok) {
+          modalNote.textContent = 'Password updated. You can now log in.';
+          statusEl.textContent = '';
+          stepPwd.classList.add('hidden');
+          setTimeout(closeModal, 800);
+        } else {
+          statusEl.textContent = (await r.text()) || 'Could not update password.';
+          statusEl.className = 'kc-help warn';
+        }
+      } catch {
+        statusEl.textContent = 'Network error. Try again.';
+        statusEl.className = 'kc-help warn';
+      }
+    });
   </script>
 </body>
 </html>

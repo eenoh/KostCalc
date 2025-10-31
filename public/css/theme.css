@@ -148,3 +148,41 @@ body{
   .kc-input::placeholder{color:#6b7280}
   .kc-footer{background:#0f172a}
 }
+
+.kc-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.kc-logo-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+.kc-logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 4px rgba(0,0,0,0.3));
+}
+
+    /* Minimal modal styles so it works without changing theme.css */
+    .kc-modal-backdrop {
+      position: fixed; inset: 0; background: rgba(0,0,0,.6);
+      display: none; align-items: center; justify-content: center; z-index: 1000;
+    }
+    .kc-modal {
+      background: #0f172a; /* match dark */
+      color: #e2e8f0;
+      width: 100%; max-width: 420px; border-radius: 16px; padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,.5);
+    }
+    .kc-modal h2 { margin: 0 0 8px; }
+    .kc-modal .kc-muted { margin-bottom: 12px; }
+    .kc-modal .row { display: grid; gap: 10px; }
+    .kc-modal .actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 12px; }
+    .hidden { display: none !important; }
+    .kc-input[readonly] { opacity: .8; }
+    .kc-help.warn { color: #fbbf24; }
+    .kc-help.ok { color: #34d399; }
