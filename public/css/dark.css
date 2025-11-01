@@ -1,0 +1,15 @@
+/* Dark mode (auto) – loaded last for overrides */
+@media (prefers-color-scheme: dark){
+  :root{
+    --kc-text-900:#e5e7eb;
+    --kc-text-700:#9ca3af;
+    --kc-bg:#0b1220;
+    --kc-surface:#0f172a;
+    --kc-border:#1f2937;
+    --kc-shadow:0 12px 30px rgba(0,0,0,.45);
+  }
+  .kc-header{ background:linear-gradient(180deg,#0f172a 0%, #0b1220 100%); }
+  .kc-input{ background:#0b1324; color:#e5e7eb; }
+  .kc-input::placeholder{ color:#6b7280; }
+  .kc-footer{ background:#0f172a; }
+}

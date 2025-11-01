@@ -1,0 +1,48 @@
+/* Page shell */
+.kc-wrap{
+  min-height:100%;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+}
+
+/* Header + logo */
+.kc-header{
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+  padding:16px 24px;
+  background:linear-gradient(180deg,#ffffff 0%, #f5f7fb 100%);
+  border-bottom:1px solid var(--kc-border);
+}
+
+.kc-logo-link{
+  display:inline-flex;
+  align-items:center;
+}
+
+.kc-logo-img{
+  width:40px;
+  height:40px;
+  object-fit:contain;
+  filter:drop-shadow(0 0 4px rgba(0,0,0,0.3));
+}
+
+.kc-title{ font-weight:700; letter-spacing:.2px; }
+.kc-sub{ color:var(--kc-text-700); font-weight:500; }
+
+/* Footer */
+.kc-footer{
+  padding:18px 24px;
+  color:var(--kc-text-700);
+  border-top:1px solid var(--kc-border);
+  background:#fff;
+  text-align:center;
+  font-size:14px;
+}
+
+/* Main positioning */
+.kc-main{
+  display:grid;
+  place-items:center;
+  padding:48px 16px;
+}

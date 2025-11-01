@@ -1,0 +1,21 @@
+/* --- Inline validation messages --- */
+.kc-error {
+  margin-top: 6px;
+  font-size: 0.875rem;     
+  line-height: 1.25rem;
+  color: #ef4444;            
+  font-weight: 500;
+}
+
+/* error input styling */
+.kc-input.error {
+  border: 1px solid #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239,68,68,0.25);
+  background-color: rgba(239,68,68,0.06);
+}
+
+/* success styling (optional visual feedback) */
+.kc-input.success {
+  border: 1px solid #22c55e !important;
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.2);
+}

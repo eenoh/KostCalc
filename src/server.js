@@ -13,6 +13,10 @@ app.use(cookieParser());
 
 app.use(express.static("public"));
 
+app.get('/', (req, res) => {
+  return res.redirect('/login');
+});
+
 app.get("/login", (_, res) => {
   res.sendFile(process.cwd() + "/public/html/login.html");
 });

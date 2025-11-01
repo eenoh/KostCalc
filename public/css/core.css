@@ -1,0 +1,29 @@
+/* KostCalc Core – variables, base, typography */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root{
+  --kc-primary:#2563eb;
+  --kc-primary-hover:#1d4ed8;
+  --kc-text-900:#0f172a;
+  --kc-text-700:#334155;
+  --kc-border:#e2e8f0;
+  --kc-bg:#f8fafc;
+  --kc-surface:#ffffff;
+  --kc-success:#16a34a;
+  --kc-warning:#f59e0b;
+  --kc-danger:#dc2626;
+  --kc-focus:#93c5fd;
+  --kc-radius-lg:14px;
+  --kc-radius-md:10px;
+  --kc-shadow:0 10px 25px rgba(2,8,23,0.08);
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0;
+  background:var(--kc-bg);
+  color:var(--kc-text-900);
+  font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  line-height:1.5;
+}
