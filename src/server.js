@@ -3,6 +3,8 @@ import cookieParser from 'cookie-parser';
 import authRoutes from './routes/authRoutes.js';
 import onboardingRoutes from './routes/onboardingRoutes.js';
 import { requireAuth, requireOnboardingComplete } from './middleware/authMiddleware.js';
+import costTypesRoutes from './routes/costTypesRoutes.js';
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -36,6 +38,9 @@ app.get('/home', requireAuth, requireOnboardingComplete, (_, res) => {
 app.get('/bezugskalkulation', (req, res) => {
   res.sendFile(process.cwd() + '/public/html/bezugskalkulation.html');
 });
+
+// Kostenartenrechnung page
+app.use('/cost-types', requireAuth, costTypesRoutes);
 
 
 // Auth endpoints

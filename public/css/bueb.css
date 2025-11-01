@@ -1,0 +1,34 @@
+.table-wrap{ overflow:auto; }
+
+table.bueb {
+  width: 100%;
+  border-collapse: collapse;
+}
+table.bueb th, table.bueb td {
+  border-top: 1px solid var(--kc-border);
+  padding: 10px 12px;
+  vertical-align: middle;
+}
+table.bueb thead th { background: rgba(148,163,184,.08); }
+table.bueb tfoot .sum td { font-weight: 700; border-top: 2px solid var(--kc-border); }
+.right { text-align: right; }
+
+.searchbox { position: relative; }
+.searchbox .results{
+  position: absolute; left: 0; right: 0; top: 100%;
+  background: var(--kc-surface);
+  border: 1px solid var(--kc-border);
+  border-radius: 10px;
+  box-shadow: var(--kc-shadow);
+  margin-top: 4px;
+  max-height: 220px;
+  overflow: auto;
+  z-index: 20;
+}
+.searchbox .results .item{
+  padding: 8px 10px;
+  cursor: pointer;
+}
+.searchbox .results .item:hover{ background: rgba(37,99,235,.08); }
+.searchbox .results .muted{ color: var(--kc-text-700); cursor: default; }
+.hidden{ display: none; }

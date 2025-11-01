@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>KostCalc – Operating Reconciliation Sheet</title>
+
+  <link rel="stylesheet" href="../css/core.css"/>
+  <link rel="stylesheet" href="../css/layout.css"/>
+  <link rel="stylesheet" href="../css/components.css"/>
+  <link rel="stylesheet" href="../css/validation.css"/>
+  <link rel="stylesheet" href="../css/dark.css"/>
+  <link rel="stylesheet" href="../css/bueb.css"/>
+</head>
+<body>
+  <div class="kc-wrap">
+    <header class="kc-header">
+      <a href="/home" class="kc-logo-link">
+        <img src="../images/dark-mode-logo.png" alt="KostCalc" class="kc-logo-img"/>
+      </a>
+      <div>
+        <div class="kc-title">KostCalc</div>
+        <div class="kc-sub">Operating Reconciliation Sheet (BÜB) – Cost type accounting</div>
+      </div>
+    </header>
+
+    <main class="kc-main">
+      <section class="kc-card" style="max-width:1100px">
+        <div class="kc-row" style="justify-content:space-between; align-items:end">
+          <div class="kc-field">
+            <label class="kc-label" for="period">Period</label>
+            <input class="kc-input" id="period" placeholder="e.g., 2025-05"/>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="bueb">
+            <thead>
+              <tr>
+                <th style="width:120px">Account no.</th>
+                <th>Expense / Cost type</th>
+                <th style="width:140px">Expenses</th>
+                <th style="width:180px">Accruals/deferrals (–)</th>
+                <th style="width:180px">Accruals/deferrals (+)</th>
+                <th style="width:140px">Costs</th>
+              </tr>
+            </thead>
+            <tbody id="rows"><!-- injected by JS --></tbody>
+            <tfoot>
+              <tr class="sum">
+                <td colspan="2">Totals</td>
+                <td><span id="t_exp">0.00</span></td>
+                <td><span id="t_min">0.00</span></td>
+                <td><span id="t_plu">0.00</span></td>
+                <td><span id="t_cost">0.00</span></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="kc-actions" style="margin-top:16px">
+          <button class="kc-btn" id="addRow" type="button">Add row</button>
+          <div style="margin-left:auto"></div>
+          <button class="kc-btn" id="save" type="button">Continue to cost center accounting</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="kc-footer">© <span id="year"></span> KostCalc</footer>
+  </div>
+
+  <script src="../js/bueb.js" defer></script>
+</body>
+</html>

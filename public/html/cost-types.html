@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>KostCalc – Cost type accounting</title>
+
+  <link rel="stylesheet" href="../css/core.css"/>
+  <link rel="stylesheet" href="../css/layout.css"/>
+  <link rel="stylesheet" href="../css/components.css"/>
+  <link rel="stylesheet" href="../css/validation.css"/>
+  <link rel="stylesheet" href="../css/dark.css"/>
+
+  <script src="../js/nav.js" defer></script>
+  <script src="../js/cost-types.js" defer></script>
+</head>
+<body>
+  <div class="kc-wrap">
+    <header class="kc-header">
+      <button class="kc-icon-btn" id="navToggle" aria-label="Toggle menu">☰</button>
+      <a href="/home" class="kc-logo-link">
+        <img src="../images/dark-mode-logo.png" alt="KostCalc logo" class="kc-logo-img"/>
+      </a>
+      <div>
+        <div class="kc-title">KostCalc</div>
+        <div class="kc-sub">Cost type accounting (Betriebsüberleitungsbogen)</div>
+      </div>
+    </header>
+
+    <div class="kc-app">
+      <aside class="kc-sidebar">
+        <nav class="kc-nav">
+          <a class="kc-nav-link" href="/home"><span class="kc-nav-ico"></span><span class="kc-nav-label">Home</span></a>
+          <a class="kc-nav-link" href="/bezugskalkulation"><span class="kc-nav-ico"></span><span class="kc-nav-label">Reference Calculation</span></a>
+          <a class="kc-nav-link active" href="/cost-types"><span class="kc-nav-ico"></span><span class="kc-nav-label">Cost Types</span></a>
+        </nav>
+      </aside>
+
+      <main class="kc-main">
+        <section class="kc-card" style="max-width:1100px">
+          <h1>Operating Reconciliation Sheet</h1>
+          <div id="bueb-root"></div>
+        </section>
+      </main>
+    </div>
+
+    <footer class="kc-footer">© <span id="year"></span> KostCalc</footer>
+  </div>
+  <script>
+    const y = document.getElementById('year');
+    if (y) y.textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

@@ -28,6 +28,7 @@
   color:var(--kc-text-900);
   outline:none;
   transition:border .2s, box-shadow .2s, background .2s;
+  margin-bottom: 5px;
 }
 .kc-input::placeholder{ color:#9aa4b2; }
 .kc-input:focus{
