@@ -1,39 +1,67 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>KostCalc – Home</title>
-  <link rel="stylesheet" href="../css/core.css" />
-  <link rel="stylesheet" href="../css/layout.css" />
-  <link rel="stylesheet" href="../css/components.css" />
-  <link rel="stylesheet" href="../css/modal.css" />
-  <link rel="stylesheet" href="../css/validation.css" />
-  <link rel="stylesheet" href="../css/dark.css" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>KostCalc – Dashboard</title>
 
-  <script src="../js/home.js"></script>
+  <!-- Your theme layers -->
+  <link rel="stylesheet" href="../css/core.css"/>
+  <link rel="stylesheet" href="../css/layout.css"/>
+  <link rel="stylesheet" href="../css/components.css"/>
+  <link rel="stylesheet" href="../css/validation.css"/>
+  <link rel="stylesheet" href="../css/dark.css"/>
+
+  <!-- Page-specific CSS/JS below if needed -->
+  <script src="../js/nav.js" defer></script>
 </head>
 <body>
   <div class="kc-wrap">
+
+    <!-- Sticky header with burger -->
     <header class="kc-header">
+      <button class="kc-icon-btn" id="navToggle" aria-label="Toggle menu">☰</button>
       <a href="/home" class="kc-logo-link">
-        <img src="../images/dark-mode-logo.png" alt="KostCalc logo" class="kc-logo-img" />
+        <img src="../images/dark-mode-logo.png" alt="KostCalc logo" class="kc-logo-img"/>
       </a>
-      <div><div class="kc-title">KostCalc</div><div class="kc-sub">Welcome</div></div>
+      <div>
+        <div class="kc-title">KostCalc</div>
+        <div class="kc-sub">Cost accounting—made simple</div>
+      </div>
     </header>
 
-    <main class="kc-main">
-      <section class="kc-card">
-        <h1>Dashboard</h1>
-        <p class="kc-muted">You’re set up. Use the menu to manage cost centers and accounts.</p>
-        <div class="kc-actions">
-          <a class="kc-btn" href="/onboarding/cost-centers">Add more cost centers</a>
-          <a class="kc-btn" href="/login">Log out</a>
-        </div>
-      </section>
-    </main>
+    <!-- Sidebar + content -->
+    <div class="kc-app">
+      <aside class="kc-sidebar">
+        <nav class="kc-nav">
+          <a class="kc-nav-link" href="/home">
+            <img src="../images/home-icon.png" alt="Home" class="kc-nav-ico"/>
+            <span class="kc-nav-label">Home</span>
+          </a>
 
-    <footer class="kc-footer">© <span id="year"></span> KostCalc</footer>
+          <a class="kc-nav-link" href="/bezugskalkulation">
+            <img src="../images/calculator-icon.png" alt="Reference Calculation" class="kc-nav-ico"/>
+            <span class="kc-nav-label">Reference Calculation</span>
+          </a>
+
+          <!-- add more nav links here -->
+        </nav>
+      </aside>
+
+      <!-- Your page content goes here -->
+      <main class="kc-main">
+        <section class="kc-card">
+          <h1>Welcome 👋</h1>
+          <p class="kc-muted">This is your dashboard.</p>
+        </section>
+      </main>
+    </div>
+
+    <footer class="kc-footer">
+      © <span id="year"></span> KostCalc. All rights reserved.
+    </footer>
   </div>
+  
+  <script src="../js/global.js" defer></script>
 </body>
 </html>

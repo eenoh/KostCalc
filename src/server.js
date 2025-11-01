@@ -32,6 +32,12 @@ app.get('/home', requireAuth, requireOnboardingComplete, (_, res) => {
   res.sendFile(process.cwd() + "/public/html/home.html");
 });
 
+// Bezugskalkulation page
+app.get('/bezugskalkulation', (req, res) => {
+  res.sendFile(process.cwd() + '/public/html/bezugskalkulation.html');
+});
+
+
 // Auth endpoints
 app.use('/auth', authRoutes);
 

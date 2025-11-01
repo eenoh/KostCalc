@@ -7,13 +7,25 @@
 
 /* Header + logo */
 .kc-header{
-  display:flex;
-  align-items:center;
-  gap:.75rem;
-  padding:16px 24px;
-  background:linear-gradient(180deg,#ffffff 0%, #f5f7fb 100%);
-  border-bottom:1px solid var(--kc-border);
+  position: sticky;      /* stick to top */
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: 16px 24px;
+  background: linear-gradient(180deg, #ffffff 0%, #f5f7fb 100%);
+  border-bottom: 1px solid var(--kc-border);
+  box-shadow: 0 2px 10px rgba(2, 8, 23, 0.06);
 }
+
+/* Compact icon button for burger */
+.kc-icon-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:36px; height:36px; border-radius:10px; border:1px solid var(--kc-border);
+  background:#fff; cursor:pointer; font-weight:700;
+}
+.kc-icon-btn:focus-visible{ outline:3px solid var(--kc-focus); outline-offset:2px; }
 
 .kc-logo-link{
   display:inline-flex;
@@ -46,3 +58,57 @@
   place-items:center;
   padding:48px 16px;
 }
+
+/* Sidebar layout */
+:root{
+  --kc-sidebar-w: 240px;
+  --kc-sidebar-w-collapsed: 64px;
+  --kc-header-h: 68px; /* approx header height for sticky math */
+}
+
+/* App grid under sticky header: sidebar + content */
+.kc-app{
+  display:grid;
+  grid-template-columns: var(--kc-sidebar-w) 1fr;
+  min-height: calc(100vh - var(--kc-header-h));
+}
+
+/* Collapsed state */
+.sidebar-collapsed .kc-app{
+  grid-template-columns: var(--kc-sidebar-w-collapsed) 1fr;
+}
+
+/* Sidebar itself */
+.kc-sidebar{
+  position: sticky;
+  top: var(--kc-header-h);
+  height: calc(100vh - var(--kc-header-h));
+  overflow:auto;
+  border-right:1px solid var(--kc-border);
+  background: var(--kc-surface);
+  padding: 14px 10px;
+}
+
+/* Nav links */
+.kc-nav{
+  display:flex; flex-direction:column; gap:6px;
+}
+.kc-nav-link{
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px; border-radius:12px; color:var(--kc-text-900);
+  text-decoration:none; font-weight:600;
+}
+.kc-nav-link:hover{ background: rgba(37,99,235,.08); }
+.kc-nav-link.active{ background: rgba(37,99,235,.12); }
+
+/* Simple round icon placeholder */
+.kc-nav-ico{
+  width:28px; height:28px; border-radius:8px;
+  background: radial-gradient(120% 120% at 0% 0%, #3b82f6 0%, #2563eb 60%, #1d4ed8 100%);
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.5);
+}
+
+/* Collapsed: hide labels, keep icons centered */
+.sidebar-collapsed .kc-nav-label{ display:none; }
+.sidebar-collapsed .kc-sidebar{ padding: 14px 6px; }
+.sidebar-collapsed .kc-nav-link{ justify-content:center; padding:10px; }

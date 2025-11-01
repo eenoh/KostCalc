@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KostCalc – Purchase Price Calculation</title>
+
+  <!-- shared styles -->
+  <link rel="stylesheet" href="../css/core.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/validation.css" />
+  <link rel="stylesheet" href="../css/dark.css" />
+
+  <!-- page specific -->
+  <link rel="stylesheet" href="../css/bezug.css" />
+</head>
+<body>
+  <div class="kc-wrap">
+    <header class="kc-header">
+      <a href="/home" class="kc-logo-link">
+        <img src="../images/dark-mode-logo.png" alt="KostCalc" class="kc-logo-img" />
+      </a>
+      <div>
+        <div class="kc-title">KostCalc</div>
+        <div class="kc-sub">Purchase Price Calculation</div>
+      </div>
+    </header>
+
+    <main class="kc-main">
+      <section class="kc-card" style="max-width:920px">
+        <h1>Purchase Price Calculation</h1>
+        <p class="kc-muted">
+          Choose the method: <b>Progressive</b> (forward) or <b>Retrograde</b> (backward).  
+        </p>
+
+        <!-- Tabs -->
+        <div class="tabs">
+          <button class="tab active" data-tab="prog">Progressive</button>
+          <button class="tab" data-tab="retro">Retrograde</button>
+        </div>
+
+        <!-- Progressive form -->
+        <form class="kc-form" id="formProg" data-mode="prog">
+          <div class="grid-3">
+            <div class="kc-field">
+              <label class="kc-label" for="p_qty">Quantity</label>
+              <input class="kc-input" id="p_qty" type="number" step="0.001" placeholder="e.g. 2970" />
+            </div>
+            <div class="kc-field">
+              <label class="kc-label" for="p_unit">Unit</label>
+              <input class="kc-input" id="p_unit" placeholder="kg / pcs / l" />
+            </div>
+            <div class="kc-field">
+              <label class="kc-label" for="p_curr">Currency</label>
+              <input class="kc-input" id="p_curr" value="€" />
+            </div>
+          </div>
+
+          <div class="kc-field">
+            <label class="kc-label">Invoice</label>
+            <div class="grid-2">
+              <input class="kc-input" id="p_invoice_total" type="number" step="0.01" placeholder="Invoice amount (net, total)" />
+              <input class="kc-input" id="p_dummy_hide" type="text" style="display:none" />
+            </div>
+          </div>
+
+          <div class="kc-field">
+            <label class="kc-label">Discounts (sequential, v.h.)</label>
+            <div class="grid-3">
+              <input class="kc-input" id="p_disc_trade"   type="number" min="0" max="100" step="0.01" placeholder="Trade discount %"/>
+              <input class="kc-input" id="p_disc_special" type="number" min="0" max="100" step="0.01" placeholder="Special discount %"/>
+              <input class="kc-input" id="p_disc_qty"     type="number" min="0" max="100" step="0.01" placeholder="Quantity discount %"/>
+            </div>
+          </div>
+
+          <div class="kc-field">
+            <label class="kc-label">Seller charges on invoice (added to discounted price)</label>
+            <div class="grid-2">
+              <input class="kc-input" id="p_fak_packing" type="number" step="0.01" placeholder="Packing (on invoice)" />
+              <input class="kc-input" id="p_fak_freight" type="number" step="0.01" placeholder="Freight (on invoice)" />
+            </div>
+          </div>
+
+          <div class="kc-field">
+            <label class="kc-label">Cash discount (Skonto, v.h. from target price)</label>
+            <input class="kc-input" id="p_skonto" type="number" min="0" max="100" step="0.01" placeholder="Skonto % (v.h.)" />
+          </div>
+
+          <div class="kc-field">
+            <label class="kc-label">Own purchasing expenses (buyer)</label>
+            <div class="grid-3">
+              <input class="kc-input" id="p_own_freight" type="number" step="0.01" placeholder="Own freight / forwarding" />
+              <input class="kc-input" id="p_own_ins" type="number" step="0.01" placeholder="Insurance / customs" />
+              <input class="kc-input" id="p_own_other" type="number" step="0.01" placeholder="Other" />
+            </div>
+          </div>
+
+          <div class="kc-actions">
+            <a class="kc-link" href="/home">Cancel</a>
+            <div class="kc-row" style="gap:8px">
+              <button class="kc-btn" type="button" id="btnProg">Calculate</button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Retrograde form -->
+        <form class="kc-form hidden" id="formRetro" data-mode="retro">
+          <div class="grid-3">
+            <div class="kc-field">
+              <label class="kc-label" for="r_qty">Quantity</label>
+              <input class="kc-input" id="r_qty" type="number" step="0.001" placeholder="e.g. 800" />
+            </div>
+            <div class="kc-field">
+              <label class="kc-label" for="r_unit">Unit</label>
+              <input class="kc-input" id="r_unit" placeholder="kg / pcs / l" />
+            </div>
+            <div class="kc-field">
+              <label class="kc-label" for="r_curr">Currency</label>
+              <input class="kc-input" id="r_curr" value="€" />
+            </div>
+          </div>
+
+          <div class="kc-field">
+            <label class="kc-label">Target: maximum purchase (cost) price</label>
+            <div class="grid-2">
+              <input class="kc-input" id="r_target_ep_total" type="number" step="0.01" placeholder="Total purchase price (e.g. 680.00)" />
+              <input class="kc-input" id="r_target_ep_unit"  type="number" step="0.0001" placeholder="or price per unit (optional)" />
+            </div>
+          </div>
+
+          <div class="kc-field">
+            <label class="kc-label">Given conditions</label>
+            <div class="grid-3">
+              <input class="kc-input" id="r_disc_trade"   type="number" min="0" max="100" step="0.01" placeholder="Trade discount % (i.h.)"/>
+              <input class="kc-input" id="r_disc_special" type="number" min="0" max="100" step="0.01" placeholder="Special discount % (i.h.)"/>
+              <input class="kc-input" id="r_disc_qty"     type="number" min="0" max="100" step="0.01" placeholder="Quantity discount % (i.h.)"/>
+            </div>
+            <div class="grid-3" style="margin-top:12px">
+              <input class="kc-input" id="r_skonto" type="number" min="0" max="100" step="0.01" placeholder="Skonto % (i.h.)" />
+              <input class="kc-input" id="r_fak_packing" type="number" step="0.01" placeholder="Seller charges: packing" />
+              <input class="kc-input" id="r_fak_freight" type="number" step="0.01" placeholder="Seller charges: freight" />
+            </div>
+            <div class="grid-2" style="margin-top:12px">
+              <input class="kc-input" id="r_bezug" type="number" step="0.01" placeholder="Own purchasing expenses (total)" />
+              <input class="kc-input" id="r_dummy_hide" type="text" style="display:none" />
+            </div>
+          </div>
+
+          <div class="kc-actions">
+            <a class="kc-link" href="/home">Cancel</a>
+            <div class="kc-row" style="gap:8px">
+              <button class="kc-btn" type="button" id="btnRetro">Calculate</button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Result -->
+        <div id="result" class="result-block"></div>
+      </section>
+    </main>
+
+    <footer class="kc-footer">© <span id="year"></span> KostCalc</footer>
+  </div>
+
+  <script src="../js/bezug.js" defer></script>
+</body>
+</html>
